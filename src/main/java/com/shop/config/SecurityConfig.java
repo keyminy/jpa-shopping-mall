@@ -39,6 +39,15 @@ public class SecurityConfig{
 	        .logoutRequestMatcher(new AntPathRequestMatcher("/members/logout")) //logout URL지정
 	        .logoutSuccessUrl("/");
 		
+        http.authorizeRequests()
+	        .mvcMatchers("/", "/members/**", "/item/**", "/images/**").permitAll()
+	        .mvcMatchers("/admin/**").hasRole("ADMIN")
+	        .anyRequest().authenticated();
+
+		http.exceptionHandling()
+			//인증되지 않은 사용자가 리소스에 접근하였을 때 수행되는 핸들러 설정
+		        .authenticationEntryPoint(new CustomAuthenticationEntryPoint());
+		
 		/*CsrfToken을 생성해주는 옵션을 추가
 		 * https://cafe.naver.com/codefirst/348 */
 		http.csrf()
