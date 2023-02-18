@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.shop.constant.Role;
 import com.shop.dto.MemberFormDto;
+import com.shop.utils.entity.BaseEntity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -22,7 +23,7 @@ import lombok.ToString;
 @Table(name="member")
 @Getter @Setter
 @ToString
-public class Member {
+public class Member extends BaseEntity{
     @Id
     @Column(name="member_id")
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -11,13 +11,15 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.shop.utils.entity.BaseEntity;
+
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
-public class OrderItem {
+public class OrderItem extends BaseEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_item_id")
@@ -37,7 +39,7 @@ public class OrderItem {
 	private int count;//수량
 	
 	 /* 주문은 언제 주문했고, 언제 주문 변경이 일어 났는지가 중요하다*/
-    private LocalDateTime regTime;
+    //private LocalDateTime regTime;
     
-    private LocalDateTime updateTime;
+    //private LocalDateTime updateTime;
 }

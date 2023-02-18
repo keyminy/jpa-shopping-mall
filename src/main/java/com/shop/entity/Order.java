@@ -19,6 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.shop.constant.OrderStatus;
+import com.shop.utils.entity.BaseEntity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -27,7 +28,7 @@ import lombok.Setter;
 @Table(name ="orders")
 @Getter
 @Setter
-public class Order {
+public class Order extends BaseEntity{
 	
     @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,7 +50,7 @@ public class Order {
     private List<OrderItem> orderItems = new ArrayList<>();
     
     /* 주문은 언제 주문했고, 언제 주문 변경이 일어 났는지가 중요하다*/
-    private LocalDateTime regTime;
+    //private LocalDateTime regTime;
     
-    private LocalDateTime updateTime;
+   //private LocalDateTime updateTime;
 }

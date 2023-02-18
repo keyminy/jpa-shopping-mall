@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.shop.utils.entity.BaseEntity;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,7 +22,7 @@ import lombok.ToString;
 @Table(name ="cart")
 @Getter
 @Setter
-public class Cart {
+public class Cart extends BaseEntity{
     @Id
     @Column(name = "cart_id")
     @GeneratedValue(strategy = GenerationType.AUTO)

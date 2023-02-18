@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.shop.utils.entity.BaseEntity;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +18,7 @@ import lombok.Setter;
 @Table(name="cart_item")
 @Getter
 @Setter
-public class CartItem {
+public class CartItem extends BaseEntity{
 	
 	@Id
 	@GeneratedValue

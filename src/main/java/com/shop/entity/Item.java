@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import javax.persistence.*;
 
 import com.shop.ItemSellStatus;
+import com.shop.utils.entity.BaseEntity;
 
 
 @Entity
@@ -17,7 +18,7 @@ import com.shop.ItemSellStatus;
 @Getter
 @Setter
 @ToString
-public class Item {
+public class Item extends BaseEntity{
 	  	@Id
 	    @Column(name="item_id")
 	    @GeneratedValue(strategy = GenerationType.AUTO)
@@ -39,7 +40,7 @@ public class Item {
 	    @Enumerated(EnumType.STRING)
 	    private ItemSellStatus itemSellStatus; //상품 판매 상태
 	    
-	    private LocalDateTime regTime;
+	    //private LocalDateTime regTime;
 	    
-	    private LocalDateTime updateTime;
+	    //private LocalDateTime updateTime;
 }
