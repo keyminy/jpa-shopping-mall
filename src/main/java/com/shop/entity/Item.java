@@ -1,16 +1,22 @@
 package com.shop.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.Table;
+
+import com.shop.ItemSellStatus;
+import com.shop.dto.ItemFormDto;
+import com.shop.utils.entity.BaseEntity;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-import javax.persistence.*;
-
-import com.shop.ItemSellStatus;
-import com.shop.utils.entity.BaseEntity;
 
 
 @Entity
@@ -43,4 +49,12 @@ public class Item extends BaseEntity{
 	    //private LocalDateTime regTime;
 	    
 	    //private LocalDateTime updateTime;
+	    
+	    public void updateItem(ItemFormDto itemFormDto){
+	        this.itemNm = itemFormDto.getItemNm();
+	        this.price = itemFormDto.getPrice();
+	        this.stockNumber = itemFormDto.getStockNumber();
+	        this.itemDetail = itemFormDto.getItemDetail();
+	        this.itemSellStatus = itemFormDto.getItemSellStatus();
+	    }
 }
