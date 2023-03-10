@@ -1,6 +1,7 @@
 package com.shop.repository;
 
 import java.time.LocalDateTime;
+
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -13,7 +14,7 @@ import org.thymeleaf.util.StringUtils;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.shop.ItemSellStatus;
+import com.shop.constant.ItemSellStatus;
 import com.shop.dto.ItemSearchDto;
 import com.shop.entity.Item;
 import com.shop.entity.QItem;

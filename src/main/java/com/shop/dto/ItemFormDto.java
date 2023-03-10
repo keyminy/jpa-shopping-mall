@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 
 import org.modelmapper.ModelMapper;
 
-import com.shop.ItemSellStatus;
+import com.shop.constant.ItemSellStatus;
 import com.shop.entity.Item;
 
 import lombok.Getter;
