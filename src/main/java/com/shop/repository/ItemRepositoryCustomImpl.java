@@ -2,6 +2,7 @@ package com.shop.repository;
 
 import java.time.LocalDateTime;
 
+
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -16,8 +17,11 @@ import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.shop.constant.ItemSellStatus;
 import com.shop.dto.ItemSearchDto;
+import com.shop.dto.MainItemDto;
+import com.shop.dto.QMainItemDto;
 import com.shop.entity.Item;
 import com.shop.entity.QItem;
+import com.shop.entity.QItemImg;
 
 public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
 	
@@ -82,5 +86,45 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
 
         return new PageImpl<>(content, pageable, total);
     }
+
+    private BooleanExpression itemNmLike(String searchQuery) {
+    	//검색어가 null이 아니면 상품명에 해당하는 검색어가 포함되는 상품 조회
+    	return StringUtils.isEmpty(searchQuery) ?
+    			null : QItem.item.itemNm.like("%" + searchQuery + "%");
+    }
+    
+	@Override
+	public Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable) {
+		QItem item = QItem.item;
+		QItemImg itemImg = QItemImg.itemImg;
+		
+		List<MainItemDto> content = queryFactory
+				.select(
+					new QMainItemDto(
+						item.id,
+						item.itemNm,
+						item.itemDetail,
+						itemImg.imgUrl,
+						item.price)
+				)
+				.from(itemImg)
+				.join(itemImg.item,item)
+				.where(itemImg.repimgYn.eq("Y")) //대표 상품 이미지만 불러옴
+				.where(itemNmLike(itemSearchDto.getSearchQuery()))
+				.orderBy(item.id.desc())
+				.offset(pageable.getOffset())
+				.limit(pageable.getPageSize())
+				.fetch();
+		 long total = queryFactory
+	                .select(Wildcard.count)
+	                .from(itemImg)
+	                .join(itemImg.item, item)
+	                .where(itemImg.repimgYn.eq("Y"))
+	                .where(itemNmLike(itemSearchDto.getSearchQuery()))
+	                .fetchOne()
+	                ;
+				
+		return new PageImpl<MainItemDto>(content,pageable,total);
+	}
 
 }
