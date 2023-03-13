@@ -59,6 +59,7 @@ public class Item extends BaseEntity{
 	        this.itemSellStatus = itemFormDto.getItemSellStatus();
 	    }
 	    
+	    //주문 완료시 재고차감
 	    public void removeStock(int stockNumber) {
 	    	//현재 상품의 재고 수량에서 주문으로 들어오는 수량을 뺀 주문 후 남은 재고 수량 구함
 	    	int restStock = this.stockNumber - stockNumber;
@@ -67,5 +68,10 @@ public class Item extends BaseEntity{
 	    	}
 	    	//상품엔티티의 재고수량을 주문 후 남은 수량으로 할당(set)
 	    	this.stockNumber = restStock;
+	    }
+	    
+	    //주문 취소시 재고 추가
+	    public void addStock(int stockNumber) {
+	    	this.stockNumber += stockNumber;
 	    }
 }
