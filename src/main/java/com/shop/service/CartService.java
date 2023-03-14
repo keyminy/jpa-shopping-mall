@@ -1,10 +1,15 @@
 package com.shop.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.util.StringUtils;
 
+import com.shop.dto.CartDetailDto;
 import com.shop.dto.CartItemDto;
 import com.shop.entity.Cart;
 import com.shop.entity.CartItem;
@@ -58,5 +63,46 @@ public class CartService {
              cartItemRepository.save(cartItem);
              return cartItem.getId();
         }
+    }
+    
+    @Transactional(readOnly = true)
+    public List<CartDetailDto> getCartList(String email){
+
+        List<CartDetailDto> cartDetailDtoList = new ArrayList<>();
+        Member member = memberRepository.findByEmail(email);
+        //현재 로그인한 회원의 장바구니 엔티티 조회
+        Cart cart = cartRepository.findByMemberId(member.getId());
+        //장바구니에 상품을 한번도 담지 않은 회원일 경우 빈 리스트 반환
+        if(cart == null){
+            return cartDetailDtoList;
+        }
+        //장바구니에 담겨있는 상품 정보 조회(cart의 Id로)
+        cartDetailDtoList = cartItemRepository.findCartDetailDtoList(cart.getId());
+        return cartDetailDtoList;
+    }
+    
+    /*장바구니 수량 수정*/
+    public void updateCartItemCount(Long cartItemId, int count){
+    	//장바구니의 상품 수량을 update합니다.
+        CartItem cartItem = cartItemRepository.findById(cartItemId)
+                .orElseThrow(EntityNotFoundException::new);
+
+        cartItem.updateCount(count);
+    }
+    
+    @Transactional(readOnly = true)
+    public boolean validateCartItem(Long cartItemId, String email){
+    	//현재 로그인한 회원 조회
+        Member curMember = memberRepository.findByEmail(email);
+        CartItem cartItem = cartItemRepository.findById(cartItemId)
+                .orElseThrow(EntityNotFoundException::new);
+        //장바구니 상품을 저장한 회원 조회.. 연관관계여러번!!..
+        Member savedMember = cartItem.getCart().getMember();
+
+        if(!StringUtils.equals(curMember.getEmail(), savedMember.getEmail())){
+            return false;
+        }
+
+        return true;
     }
 }
